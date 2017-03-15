@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/deep_insights.css" />
+        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/public_editor3.css" />
+        <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+
+
+        
     <style>
+        body {
+   font-family: 'Montserrat', sans-serif;
+   font-size: 18px;
+   color: #B7EA74;
+   background-color: #5E5E5D;
+   text-align: center;
+      }
+        
+        
   h1 {
-    color: #618685;
+    color: #B7EA74;
     font-family: 'Montserrat';
     text-align: center;
-    font-size: 40;
+    font-size: 30px;
     border-style: dotted;
     border-width: 4px; 
     border-bottom-left-radius: 2em;
     border-bottom-right-radius: 2em;
-    padding: 10
-      }
-    
-     body {
-   font-family: 'Montserrat', sans-serif;
-   font-size: 18px;
-   color: #618685;
-   background-color: #d5f4e6;
-   text-align: center;
+    padding: 5;
       }
       
   
@@ -28,8 +40,51 @@
     text-align: center;
     font-size: 50px;
   }
-<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-    </style>
+   
+  html, body {
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+
+            #map {
+                height: 100%;
+                width: 100%;
+            }
+
+            .buttons {
+                position: absolute;
+                top: 225px;
+                left: 70px;   
+            }
+
+            button {
+                background: #B7EA74;
+                border: solid;
+                border-width: 1px;
+                padding: 4px;
+                color:#5873bc;
+                font-family: Montserrat;
+                border-radius: 8px;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);      
+            }
+            
+             .type-picker {
+                position: absolute;
+                top: 260px;
+                left: 70px;
+                background: #B7EA74;
+                border: solid;
+                border-width: 1px;
+                padding: 2px;
+                color:#5873bc;
+                font-family: Montserrat;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            }
+
+        
+        </style>
     </head>
     
     <body>
@@ -52,10 +107,56 @@ This map contains two data sets: New York farmers' markets and New York bike rou
 <br>
 <br>
 
+<div id="map"></div>
+        <div class="buttons">
+            <button class="year-round">Year-Round Markets</button>
+            <button class="reset">All Markets</button>
+        </div>  
+          
+         <select class="type-picker">
+            <option value="all">All Markets</option>
+            <option value="true">SNAP Accepted</option>
+            <option value="false">SNAP Not Accepted</option>
+        </select>
 
+        
+     
+        
+        <script>
+            var farmers_markets_in_new_york_stateLayer;
+            $(document).ready(function () {
+                cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/2a61c59e-ee34-11e6-b494-0e3ebc282e83/viz.json', 
+                                  {cartodb_logo:false})
+                    .done(function (vis, layers) {
+                        farmers_markets_in_new_york_stateLayer = layers[1].getSubLayer(0);
+                    });
 
-<center><iframe src="https://thenewschool.carto.com/u/ardej674/builder/2a61c59e-ee34-11e6-b494-0e3ebc282e83/embed"style="width:900px;height:600px;"</iframe></center>
-
+                $('.year-round').click(function () {
+                    farmers_markets_in_new_york_stateLayer.setSQL("SELECT * FROM farmers_markets_in_new_york_state WHERE operation_season = 'Year-round'");
+                });
+                $('.reset').click(function () {
+                    farmers_markets_in_new_york_stateLayer.setSQL("SELECT * FROM farmers_markets_in_new_york_state");
+                });
+                
+    
+                 $('.type-picker').change(function () {
+                    var type = $(this).val();
+                    var sql;
+                    if (type === 'all') {
+                        
+                        sql = "SELECT * FROM farmers_markets_in_new_york_state";
+                    }
+                    else {
+                        
+                        sql = "SELECT * FROM farmers_markets_in_new_york_state WHERE ebt_snap = '" + type + "'";
+                    }
+                    farmers_markets_in_new_york_stateLayer.setSQL(sql);
+                });
+                
+    
+                
+            });
+        </script> 
        
     </body>
     
