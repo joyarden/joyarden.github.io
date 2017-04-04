@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|PT+Serif" rel="stylesheet">
         
         <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
@@ -13,130 +14,144 @@
 
         
     <style>
-        body {
-   font-family: 'Montserrat', sans-serif;
-   font-size: 18px;
-   color: #B7EA74;
-   background-color: #5E5E5D;
+    
+body {
+   font-family: Arial;
+   font-size: 20px;
+   color: #5873bc;
+   background-color: #242426;
    text-align: center;
-      }
+      }    
         
         
   h1 {
     color: #B7EA74;
-    font-family: 'Montserrat';
+    font-family: 'Cabin Sketch', cursive;
     text-align: center;
-    font-size: 30px;
-    border-style: dotted;
-    border-width: 4px; 
-    border-bottom-left-radius: 2em;
-    border-bottom-right-radius: 2em;
+    font-size: 70px;
     padding: 5;
       }
       
-  
-  .bike{
-    color:white
+      h2 {
+    color: #B7EA74;
+    font-family: 'Cabin Sketch', cursive;
     text-align: center;
     font-size: 50px;
-  }
-   
+    padding: 5;
+      }
+      
+      
+        
   html, body {
                 height: 100%;
                 margin: 0;
                 padding: 0;
                 width: 100%;
             }
-
             #map {
                 height: 100%;
                 width: 100%;
             }
-
             .buttons {
                 position: absolute;
-                top: 225px;
+                top: 135px;
                 left: 70px;   
             }
-
             button {
                 background: #B7EA74;
                 border: solid;
                 border-width: 1px;
                 padding: 4px;
                 color:#5873bc;
-                font-family: Montserrat;
+                font-family: Arial;
                 border-radius: 8px;
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);      
-            }
-            
+            }       
              .type-picker {
                 position: absolute;
-                top: 260px;
-                left: 70px;
+                top: 135px;
+                left: 485px;
                 background: #B7EA74;
                 border: solid;
                 border-width: 1px;
-                padding: 2px;
+                border-radius: 8px;
+                padding: 3px;
                 color:#5873bc;
-                font-family: Montserrat;
+                font-family: Arial;
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-            }
-
+            }        
+              
         
         </style>
     </head>
     
     <body>
+    
     <h1>
-   New York Farmers' Markets 
-  <br>
-    and 
-  <br>
-    Accessibility by Bike 
-  </h1>
+     ICELAND 
+    </h1>
+    
+    <h2>
+    Attractions
+    </h2>
 
-<div class="bike">
-<marquee behavior="alternate"> &#128690;&#128690;&#128690;&#128690;&#128690;&#128690;&#128690;&#128690;&#128690;</marquee>
- </div>
-
-
-
-This map contains two data sets: New York farmers' markets and New York bike routes. The point of the map is to reveal market accessibility by bicycle. 
-
-<br>
-<br>
 
 <div id="map"></div>
+
+
+<script type="template/html" id="popup-template">
+            <div class="cartodb-popup v2">
+                <a href="#close" class="cartodb-popup-close-button close">x</a>
+                <div class="cartodb-popup-content-wrapper">
+                    <div class="cartodb-popup-content">
+                        {{name}} Waterfall: {{height}} feet
+                    </div>
+                </div>
+                <div class="cartodb-popup-tip-container"></div>
+            </div>
+        </script>
+
+
         <div class="buttons">
-            <button class="year-round">Year-Round Markets</button>
-            <button class="reset">All Markets</button>
+            <button class="reset">All Waterfalls</button>
+            <button class="height">Height Greater Than 100 Feet</button>
         </div>  
+        
+        
           
          <select class="type-picker">
-            <option value="true">SNAP Accepted</option>
-            <option value="false">SNAP Not Accepted</option>
-            <option value="all">All Markets</option>
+            <option value="Austurland">Austurland</option>
+            <option value="Höfuðborgarsvæðið">Höfuðborgarsvæðið</option>
+            <option value="Norðurland eystra">Norðurland eystra</option>
+            <option value="Suðurland">Suðurland</option>
+            <option value="Vestfirðir">Vestfirðir</option>
+            <option value="Vesturland">Vesturland</option>
+            <option value="all">All Regions </option>
         </select>
-
         
-     
         
         <script>
-            var farmers_markets_in_new_york_stateLayer;
+            var waterfallsdatabaseLayer;
             $(document).ready(function () {
-                cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/2a61c59e-ee34-11e6-b494-0e3ebc282e83/viz.json', 
+                cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/2d743f34-18c6-11e7-b1ac-0ee66e2c9693/viz.json', 
                                   {cartodb_logo:false})
                     .done(function (vis, layers) {
-                        farmers_markets_in_new_york_stateLayer = layers[1].getSubLayer(0);
+                          waterfalls_databaseLayer = layers[1].getSubLayer(0); 
+                          waterfalls_databaseLayer.infowindow.set('template', $('#popup-template').html());
                     });
+  
 
-                $('.year-round').click(function () {
-                    farmers_markets_in_new_york_stateLayer.setSQL("SELECT * FROM farmers_markets_in_new_york_state WHERE operation_season = 'Year-round'");
-                });
+                    
                 $('.reset').click(function () {
-                    farmers_markets_in_new_york_stateLayer.setSQL("SELECT * FROM farmers_markets_in_new_york_state");
+                     waterfalls_databaseLayer.setSQL("SELECT * FROM waterfalls_database");
                 });
+                
+                
+                
+                $('.height').click(function () {
+                     waterfalls_databaseLayer.setSQL("SELECT * FROM waterfalls_database WHERE height > 100");
+                });
+                
                 
     
                  $('.type-picker').change(function () {
@@ -144,19 +159,26 @@ This map contains two data sets: New York farmers' markets and New York bike rou
                     var sql;
                     if (type === 'all') {
                         
-                        sql = "SELECT * FROM farmers_markets_in_new_york_state";
+                        sql = "SELECT * FROM waterfalls_database";
                     }
                     else {
                         
-                        sql = "SELECT * FROM farmers_markets_in_new_york_state WHERE ebt_snap = '" + type + "'";
+                        sql = "SELECT * FROM waterfalls_database WHERE region = '" + type + "'";
                     }
-                    farmers_markets_in_new_york_stateLayer.setSQL(sql);
+                    waterfalls_databaseLayer.setSQL(sql);
                 });
                 
-    
+                
                 
             });
         </script> 
+
+        
+        
+       <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>  
+        
+        
+  
        
     </body>
     
