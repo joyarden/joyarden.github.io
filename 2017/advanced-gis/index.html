@@ -80,7 +80,19 @@ body {
                 font-family: Arial;
                 box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
             }        
-              
+              .sql-overlay {
+                position: absolute;
+                top: 135px;
+                left: 700px; 
+                background: #B7EA74;
+                border: solid;
+                border-width: 1px;
+                padding: 4px;
+                color:#5873bc;
+                font-family: Arial;
+                border-radius: 8px;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);  
+            }
         
         </style>
     </head>
@@ -97,6 +109,7 @@ body {
 
 
 <div id="map"></div>
+<div class="sql-overlay"></div>
 
 
 <script type="template/html" id="popup-template">
@@ -141,20 +154,32 @@ body {
                     });
   
 
+                 // Build a URL. Replace your username below and the SQL statement
+                var url = 'https://ardej674.carto.com/api/v2/sql?' + $.param({
+                    q: "SELECT COUNT(*) FROM waterfalls_database WHERE the_geom IS NOT NULL",
+                    api_key:"cd07a4cfe5bb0f6e234bef5b81e0edac31a12fd3"
+                });
+                $.getJSON(url)
+                    .done(function(data) {
+                        // Once the data has loaded, update the text in the overlay
+                        //
+                        // If you want to see the data that is returned, uncomment this line:
+                        //console.log(data);
+                        //
+                        // In this case we get data.rows[0].count, get rows from 
+                        // data, get the first row, then get count from that.
+                        $('.sql-overlay').text('There are ' + data.rows[0].count + ' waterfalls')
+                    }); 
                     
                 $('.reset').click(function () {
                      waterfalls_databaseLayer.setSQL("SELECT * FROM waterfalls_database");
                 });
-                
-                
-                
+
                 $('.height').click(function () {
                      waterfalls_databaseLayer.setSQL("SELECT * FROM waterfalls_database WHERE height > 100");
                 });
                 
-                
-    
-                 $('.type-picker').change(function () {
+                $('.type-picker').change(function () {
                     var type = $(this).val();
                     var sql;
                     if (type === 'all') {
@@ -167,9 +192,8 @@ body {
                     }
                     waterfalls_databaseLayer.setSQL(sql);
                 });
-                
-                
-                
+               
+              
             });
         </script> 
 
