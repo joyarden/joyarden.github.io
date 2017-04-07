@@ -156,8 +156,7 @@ body {
 
                  // Build a URL. Replace your username below and the SQL statement
                 var url = 'https://ardej674.carto.com/api/v2/sql?' + $.param({
-                    q: "SELECT COUNT(*) FROM waterfalls_database WHERE the_geom IS NOT NULL",
-                    api_key:"cd07a4cfe5bb0f6e234bef5b81e0edac31a12fd3"
+                    q: "SELECT COUNT(*) FROM waterfalls_database WHERE the_geom IS NOT NULL"
                 });
                 $.getJSON(url)
                     .done(function(data) {
