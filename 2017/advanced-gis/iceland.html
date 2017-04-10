@@ -47,6 +47,47 @@
         height: 100%;
         width: 100%;
       } 
+      .buttons {
+                position: absolute;
+                top: 50px;
+                left: 70px;   
+            }
+     button {
+                background: #B7EA74;
+                border: solid;
+                border-width: 1px;
+                padding: 4px;
+                color:#5873bc;
+                font-family: 'Palanquin Dark', sans-serif;
+                border-radius: 8px;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);      
+            }       
+    .type-picker {
+                position: absolute;
+                top: 50px;
+                left: 545px;
+                background: #B7EA74;
+                border: solid;
+                border-width: 1px;
+                border-radius: 8px;
+                padding: 3px;
+                color:#5873bc;
+                font-family: 'Palanquin Dark', sans-serif;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+            }        
+    .sql-overlay {
+                position: absolute;
+                top: 50px;
+                left: 355px; 
+                background: #B7EA74;
+                border: solid;
+                border-width: 1px;
+                padding: 4px;
+                color:#5873bc;
+                font-family: 'Palanquin Dark', sans-serif;
+                border-radius: 8px;
+                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);  
+            }
     </style>
   </head>
   <body>
@@ -58,12 +99,86 @@
  </div>
 
     <div id="map"></div>
+    <div class="sql-overlay"></div>
+    <div class="buttons">
+            <button class="reset">All Features</button>
+            <button class="major">Main Tourist Attractions</button>
+        </div> 
+    <select class="type-picker">
+            <option value="Waterfall">Waterfall</option>
+            <option value="Geothermal Pool">Geothermal Pool</option>
+            <option value="Beach">Beach</option>
+            <option value="Other">Other</option>
+            <option value="all">All Features </option>
+        </select>
 
-    <script>
-            $(document).ready(function () {
-                cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/7141d61e-1cc1-11e7-b9f3-0e3ff518bd15/viz.json');
-            });
+<script type="template/html" id="popup-template">
+            <div class="cartodb-popup v2">
+                <a href="#close" class="cartodb-popup-close-button close">x</a>
+                <div class="cartodb-popup-content-wrapper">
+                    <div class="cartodb-popup-content">
+                     {{feature}}: {{name}} 
+                    </div>
+                </div>
+                <div class="cartodb-popup-tip-container"></div>
+            </div>
         </script>
+        
+<script>
+            var attractionLayer;
+            $(document).ready(function () {
+                cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/7141d61e-1cc1-11e7-b9f3-0e3ff518bd15/viz.json', 
+                                  {cartodb_logo:false,search: false})
+                    .done(function (vis, layers) {
+                          attractionLayer = layers[1].getSubLayer(0); 
+                          attractionLayer.infowindow.set('template', $('#popup-template').html());
+                    });
+                    
+                var url = 'https://ardej674.carto.com/api/v2/sql?' + $.param({
+                    q: "SELECT COUNT(*) FROM attraction WHERE feature = 'Waterfall'",
+                });
+                $.getJSON(url)
+                    .done(function(data) {
+                        // Once the data has loaded, update the text in the overlay
+                        //
+                        // If you want to see the data that is returned, uncomment this line:
+                        //console.log(data);
+                        //
+                        // In this case we get data.rows[0].count, get rows from 
+                        // data, get the first row, then get count from that.
+                        $('.sql-overlay').text('There are ' + data.rows[0].count +  ' Waterfalls')
+                    }); 
+                    
+                $('.reset').click(function () {
+                     attractionLayer.setSQL("SELECT * FROM attraction");
+                });
+
+                $('.major').click(function () {
+                     attractionLayer.setSQL("SELECT * FROM attraction WHERE major = 'true'");
+                });
+                
+                $('.type-picker').change(function () {
+                    var type = $(this).val();
+                    var sql;
+                    if (type === 'all') {
+                        
+                        sql = "SELECT * FROM attraction";
+                    }
+                    else {
+                        
+                        sql = "SELECT * FROM attraction WHERE feature = '" + type + "'";
+                    }
+                    attractionLayer.setSQL(sql);
+                });
+               
+              
+            });
+        </script> 
+
+        
+        
+       <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>  
+        
 
   </body>
 </html>
