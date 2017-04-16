@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
+
+Name       : Mongoose 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130920
+-->
+<html xmlns="http://www.w3.org/1999/xhtml
+<head>
+    <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/deep_insights.css" />
+    <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
+    <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/public_editor3.css" />
+    <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+    <link href="default.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <!--[if IE 6]><link href="fonts.css" rel="stylesheet" type="text/css" media="all" 
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+</head>
+<body>
+    <div id="header-wrapper">
+        <div id="header" class="container">
+            <div id="logo">
+                <h1><a href="#"><strong>Joy Arden</strong></a></h1>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li><a href="#" accesskey="1" title="">About</a></li>
+                    <li class="current_page_item"><a href="#" accesskey="2" title="">Ring Road</a></li>
+                    <li><a href="#" accesskey="3" title="">Geological Attractions</a></li>
+                    <li><a href="#" accesskey="4" title="">Blog</a></li>
+                    <li><a href="#" accesskey="5" title="">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="page" class="container">
+        <div id="map" class="container">
+            <div class="buttonbar">
+                <button class="reset button1">All Features</button>
+                <button class="major button1">Main Tourist Attractions</button>
+            </div>
+        </div>
+    </div>
+    <div id="copyright">
+    </div>
+    <script>
+        var attractionLayer;
+        $(document).ready(function() {
+            cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/7141d61e-1cc1-11e7-b9f3-0e3ff518bd15/viz.json', {
+                    cartodb_logo: false,
+                    search: false
+                })
+                .done(function(vis, layers) {
+                    attractionLayer = layers[1].getSubLayer(0);
+                    attractionLayer.infowindow.set('template', $('#popup-template').html());
+                });
+
+            var url = 'https://ardej674.carto.com/api/v2/sql?' + $.param({
+                q: "SELECT COUNT(*) FROM attraction WHERE feature = 'Waterfall'",
+            });
+            $.getJSON(url)
+                .done(function(data) {
+                    // Once the data has loaded, update the text in the overlay
+                    //
+                    // If you want to see the data that is returned, uncomment this line:
+                    //console.log(data);
+                    //
+                    // In this case we get data.rows[0].count, get rows from 
+                    // data, get the first row, then get count from that.
+                    $('.sql-overlay').text('There are ' + data.rows[0].count + ' Waterfalls')
+                });
+
+            $('.reset').click(function() {
+                attractionLayer.setSQL("SELECT * FROM attraction");
+            });
+
+            $('.major').click(function() {
+                attractionLayer.setSQL("SELECT * FROM attraction WHERE major = 'true'");
+            });
+
+            $('.type-picker').change(function() {
+                var type = $(this).val();
+                var sql;
+                if (type === 'all') {
+
+                    sql = "SELECT * FROM attraction";
+                } else {
+
+                    sql = "SELECT * FROM attraction WHERE feature = '" + type + "'";
+                }
+                attractionLayer.setSQL(sql);
+            });
+        });
+    </script>
+    <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+</body>
+
+</html>

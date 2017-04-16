@@ -1,209 +1,100 @@
-<!DOCTYPE html>
-<html>
-    <head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+Design by TEMPLATED
+http://templated.co
+Released for free under the Creative Commons Attribution License
 
-        <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch|PT+Serif" rel="stylesheet">
-        
-        <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+Name       : Mongoose 
+Description: A two-column, fixed-width design with dark color scheme.
+Version    : 1.0
+Released   : 20130920
 
-        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/deep_insights.css" />
-        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
-        <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/public_editor3.css" />
-        <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title></title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
+<link href="default.css" rel="stylesheet" type="text/css" media="all" />
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 
+<!--[if IE 6]><link href="fonts.css" rel="stylesheet" type="text/css" media="all" 
 
-        
-    <style>
-    
-body {
-   font-family: Arial;
-   font-size: 20px;
-   color: #5873bc;
-   background-color: #242426;
-   text-align: center;
-      }    
-        
-        
-  h1 {
-    color: #B7EA74;
-    font-family: 'Cabin Sketch', cursive;
-    text-align: center;
-    font-size: 70px;
-    padding: 5;
-      }
+<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+
+</head>
+<body>
+<div id="header-wrapper">
+<div id="header" class="container">
+	<div id="logo">
+		<h1><a href="#"><strong>Joy Arden</strong></a></h1>
+	</div>
+	<div id="menu">
+		<ul>
+			<li class="current_page_item"><a href="#" accesskey="1" title="">About</a></li>
+			<li><a href="#" accesskey="2" title="">Ring Road</a></li>
+			<li><a href="#" accesskey="3" title="">Geological Attractions</a></li>
+			<li><a href="#" accesskey="4" title="">Blog</a></li>
+			<li><a href="#" accesskey="5" title="">Contact</a></li>
+		</ul>
+	</div>
+</div></div>
+<div id="page" class="container">
+	<div id="content">
+		<div class="title">
+			<h2>Ring Road Adventure</h2>
+			<span class="byline">Iceland's Geological Wonders</span> </div>
+		<img src="https://image.ibb.co/kmCP35/2_day_tour_to_jokulsarlon_lagoon_with_glacier_hiking_0.jpg" alt="2_day_tour_to_jokulsarlon_lagoon_with_glacier_hiking_0" border="0" height=300px>
       
-      h2 {
-    color: #B7EA74;
-    font-family: 'Cabin Sketch', cursive;
-    text-align: center;
-    font-size: 50px;
-    padding: 5;
-      }
-      
-      
-        
-  html, body {
-                height: 100%;
-                margin: 0;
-                padding: 0;
-                width: 100%;
-            }
-            #map {
-                height: 100%;
-                width: 100%;
-            }
-            .buttons {
-                position: absolute;
-                top: 135px;
-                left: 70px;   
-            }
-            button {
-                background: #B7EA74;
-                border: solid;
-                border-width: 1px;
-                padding: 4px;
-                color:#5873bc;
-                font-family: Arial;
-                border-radius: 8px;
-                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);      
-            }       
-             .type-picker {
-                position: absolute;
-                top: 135px;
-                left: 485px;
-                background: #B7EA74;
-                border: solid;
-                border-width: 1px;
-                border-radius: 8px;
-                padding: 3px;
-                color:#5873bc;
-                font-family: Arial;
-                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
-            }        
-              .sql-overlay {
-                position: absolute;
-                top: 135px;
-                left: 700px; 
-                background: #B7EA74;
-                border: solid;
-                border-width: 1px;
-                padding: 4px;
-                color:#5873bc;
-                font-family: Arial;
-                border-radius: 8px;
-                box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);  
-            }
-        
-        </style>
-    </head>
-    
-    <body>
-    
-    <h1>
-     ICELAND 
-    </h1>
-    
-    <h2>
-    Attractions
-    </h2>
-
-
-<div id="map"></div>
-<div class="sql-overlay"></div>
-
-
-<script type="template/html" id="popup-template">
-            <div class="cartodb-popup v2">
-                <a href="#close" class="cartodb-popup-close-button close">x</a>
-                <div class="cartodb-popup-content-wrapper">
-                    <div class="cartodb-popup-content">
-                        {{name}} Waterfall: {{height}} feet
-                    </div>
-                </div>
-                <div class="cartodb-popup-tip-container"></div>
-            </div>
-        </script>
-
-
-        <div class="buttons">
-            <button class="reset">All Waterfalls</button>
-            <button class="height">Height Greater Than 100 Feet</button>
-        </div>  
-        
-        
-          
-         <select class="type-picker">
-            <option value="Austurland">Austurland</option>
-            <option value="Höfuðborgarsvæðið">Höfuðborgarsvæðið</option>
-            <option value="Norðurland eystra">Norðurland eystra</option>
-            <option value="Suðurland">Suðurland</option>
-            <option value="Vestfirðir">Vestfirðir</option>
-            <option value="Vesturland">Vesturland</option>
-            <option value="all">All Regions </option>
-        </select>
-        
-        
-        <script>
-            var waterfallsdatabaseLayer;
-            $(document).ready(function () {
-                cartodb.createVis('map', 'https://thenewschool.carto.com/u/ardej674/api/v2/viz/2d743f34-18c6-11e7-b1ac-0ee66e2c9693/viz.json', 
-                                  {cartodb_logo:false})
-                    .done(function (vis, layers) {
-                          waterfalls_databaseLayer = layers[1].getSubLayer(0); 
-                          waterfalls_databaseLayer.infowindow.set('template', $('#popup-template').html());
-                    });
-  
-
-                 // Build a URL. Replace your username below and the SQL statement
-                var url = 'https://ardej674.carto.com/api/v2/sql?' + $.param({
-                    q: "SELECT COUNT(*) FROM waterfalls_database WHERE the_geom IS NOT NULL"
-                });
-                $.getJSON(url)
-                    .done(function(data) {
-                        // Once the data has loaded, update the text in the overlay
-                        //
-                        // If you want to see the data that is returned, uncomment this line:
-                        //console.log(data);
-                        //
-                        // In this case we get data.rows[0].count, get rows from 
-                        // data, get the first row, then get count from that.
-                        $('.sql-overlay').text('There are ' + data.rows[0].count + ' waterfalls')
-                    }); 
-                    
-                $('.reset').click(function () {
-                     waterfalls_databaseLayer.setSQL("SELECT * FROM waterfalls_database");
-                });
-
-                $('.height').click(function () {
-                     waterfalls_databaseLayer.setSQL("SELECT * FROM waterfalls_database WHERE height > 100");
-                });
-                
-                $('.type-picker').change(function () {
-                    var type = $(this).val();
-                    var sql;
-                    if (type === 'all') {
-                        
-                        sql = "SELECT * FROM waterfalls_database";
-                    }
-                    else {
-                        
-                        sql = "SELECT * FROM waterfalls_database WHERE region = '" + type + "'";
-                    }
-                    waterfalls_databaseLayer.setSQL(sql);
-                });
-               
-              
-            });
-        </script> 
-
-        
-        
-       <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>  
-        
-        
-  
-       
-    </body>
-    
-
+		<p>The <strong>Ring Road </strong>, also known as Route 1, is Iceland's <strong>only </strong>main road running around the entire country. It spans 828 miles around the coast and can be completed in 18 hours. The middle of Iceland is inaccessible by car due to glaciers and unique geography. By driving the Ring Road, you have access to Iceland's main villages as well as viewing everything the country has to offer! </p>
+		<div id="onecolumn">
+			<div class="title">
+				<h2>Tourism in Iceland</h2>
+			</div>
+			<p> Within the past five years, Iceland has experienced massive growth in tourism. The most popular route in Iceland is the Golden Circle, which is a day trip where tourists can view some of Iceland's most famous wonders. People drive in a 190 mile loop starting at the capital, Reykavik, and stop to see a geyser, mid-atlantic ridge, and powerful waterfall. For adventure seekers with more time, traveling the Ring Road is a good option to experience the true Iceland culture and see incredible geological attractions. The road trip provides tourists an amazing connection with nature that is unlike any other country. The landscape changes durastically from black sand beaches to frozen glaciers to geothermal pools. 
+            </p>
+		</div>
+	</div>
+	<div id="sidebar">
+		<ul class="style1">
+			<li class="first">
+				<h3>Project: Mapping the Ring Road</h3>
+				<p>For my project, I am creating a map of the geological attractions that Iceland has to offer. Because the Ring Road is off the beaten path for tourists, there is little information and maps. This map can be used as a tool for adventurers road tripping around the country.</p>
+			</li>
+			<li>
+				<h3>My Road Trip</h3>
+				<p>As a gift to myself, I planned a roadtrip around Iceland beginning the day after graduation. Most of the country is uninhabited with sparse villages along the coast. In fact, each night I will be staying on farms and in tiny homes. When setting up my itnerary, my hosts sent me coordinates of their location because of the lack of defined roads and addresses. Any blogs or informational sites used coordinates for places to visit as well. Frustrated with an overwhelming list of coordinates, I was inspired to make a map as a visual tool for myself so I could plan an epic adventure! </p>
+			</li>
+		</ul>
+		<div id="stwo-col">
+			<div class="sbox1">
+				<h2>Methodology</h2>
+				<ul class="style2">
+                    <li>Research Iceland geography and popular sites</li>
+					<li>Data Collection: Waterfalls, Geothermal Pools, Beaches, etc.</li>
+					<li>Create database: feature, title, coordinates</li>
+					<li>Research websites and photos for reference</li>
+					<li>Indicate popularity and accessibility</li>
+				</ul>
+			</div>
+			<div class="sbox2">
+				<h2>Sources</h2>
+				<ul class="style2">
+					<li><a href="https://guidetoiceland.is/">Guide to Iceland</a></li>
+					<li><a href="https://www.lonelyplanet.com/iceland">Lonely Planet</a></li>
+					<li><a href="http://www.worldwaterfalldatabase.com/country/Iceland/list">World Waterfall Database</a></li>
+					<li><a href="http://hotpoticeland.com/">Hot Pot Iceland</a></li>
+					<li><a href="https://www.tripadvisor.com/Attraction_Review-g189952-d555027-Reviews-Ring_Road-Iceland.html">Trip Advisor</a></li>
+                    <li><a href="http://www.visiticeland.com/things-to-do">Visit Iceland</a></li>
+                     <li><a href="https://expertvagabond.com/ring-road-trip-iceland/">Expert Vagabond</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="copyright">
+</div>
+</body>
 </html>
