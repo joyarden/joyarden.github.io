@@ -236,18 +236,15 @@
 	
 	.button1 {
 	    display: inline-block;
-	    padding: 1em 3em 1em 2em;
+	    padding: 15px 15px 15px 15px;
 	    letter-spacing: 0.20em;
 	    text-decoration: none;
 	    text-transform: uppercase;
 	    font-weight: 400;
 	    font-size: 0.90em;
 	    color: white;
-	    background: #32251B;
-	    margin-right: 10px;
-	    margin-left: 10px;
-	    border-left: thick solid white;
-        border-right: thick solid white;
+	    background: transparent;
+        border-right: 2px solid white;
 	}
 	
 	.button1:hover {
@@ -256,7 +253,8 @@
 	}
 	
 	.buttonbar {
-	    background: #32251B;
+	    background: #272925  ;
+        margin: 0em auto;
 	    width: 1200px;
 	    overflow: hidden;
 	}
@@ -354,7 +352,7 @@
 	#menu li.active span {}
 	
 	#menu .current_page_item a {
-	    background: #32251B;
+	    background: #272925;
 	    color: #FFFFFF;
 	}
 	/*********************************************************************************/
@@ -369,7 +367,6 @@
 	#page {
 	    overflow: hidden;
 	    background-color: #FFF;
-	    border-top: 20px solid #32251B;
 	}
 	/*********************************************************************************/
 	/* Content                                                                       */
@@ -455,3 +452,13 @@
 	#onecolumn .title h2 {
 	    font-size: 1.8em;
 	}
+
+
+//PRACTICE
+
+.type-picker {
+                background: transparent;
+                border: solid;
+                border-width: 1px;
+                border-radius: 8px;
+            }

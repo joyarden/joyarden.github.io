@@ -3,7 +3,6 @@
 Design by TEMPLATED
 http://templated.co
 Released for free under the Creative Commons Attribution License
-
 Name       : Mongoose 
 Description: A two-column, fixed-width design with dark color scheme.
 Version    : 1.0
@@ -15,8 +14,6 @@ Released   : 20130920
     <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/themes/css/cartodb.css" />
     <link rel="stylesheet" href="https://cartodb-libs.global.ssl.fastly.net/cartodbui/assets/4.6.25/stylesheets/public_editor3.css" />
     <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
-
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <meta name="keywords" content="" />
@@ -48,12 +45,37 @@ Released   : 20130920
                                        <div class="buttonbar">
                 <button class="reset button1">All Features</button>
                 <button class="major button1">Main Tourist Attractions</button>
+                <select class="type-picker">
+                    <option value="Waterfall">Waterfall</option>
+                    <option value="Geothermal Pool">Geothermal Pool</option>
+                    <option value="Beach">Beach</option>
+                    <option value="Other">Other</option>
+                    <option value="all">All Features </option>
+                </select>
             </div>
+         
         <div id="map" class="container">
         </div>
     </div>
     <div id="copyright">
     </div>
+                       
+<script type="template/html" id="popup-template">
+            <div class="cartodb-popup v2">
+                <a href="#close" class="cartodb-popup-close-button close">x</a>
+                <div class="cartodb-popup-content-wrapper">
+                <div class="cartodb-popup-content">
+                <h2>{{name}}</h2>
+                <hr>
+                <p>Type: {{feature}}</p>
+                <p>Coordinates: {{latitude}},{{longitude}}</p>
+                <p><img width="160px" src="{{image}}" /></p>
+                <p><a href="{{website}}">More Information</a>
+                    </div>
+                </div>
+                <div class="cartodb-popup-tip-container"></div>
+            </div>
+        </script>
     <script>
         var attractionLayer;
         $(document).ready(function() {
@@ -65,7 +87,6 @@ Released   : 20130920
                     attractionLayer = layers[1].getSubLayer(0);
                     attractionLayer.infowindow.set('template', $('#popup-template').html());
                 });
-
             var url = 'https://ardej674.carto.com/api/v2/sql?' + $.param({
                 q: "SELECT COUNT(*) FROM attraction WHERE feature = 'Waterfall'",
             });
@@ -80,23 +101,18 @@ Released   : 20130920
                     // data, get the first row, then get count from that.
                     $('.sql-overlay').text('There are ' + data.rows[0].count + ' Waterfalls')
                 });
-
             $('.reset').click(function() {
                 attractionLayer.setSQL("SELECT * FROM attraction");
             });
-
             $('.major').click(function() {
                 attractionLayer.setSQL("SELECT * FROM attraction WHERE major = 'true'");
             });
-
             $('.type-picker').change(function() {
                 var type = $(this).val();
                 var sql;
                 if (type === 'all') {
-
                     sql = "SELECT * FROM attraction";
                 } else {
-
                     sql = "SELECT * FROM attraction WHERE feature = '" + type + "'";
                 }
                 attractionLayer.setSQL(sql);
@@ -105,5 +121,4 @@ Released   : 20130920
     </script>
     <script src="https://cartodb-libs.global.ssl.fastly.net/cartodb.js/v3/3.15/cartodb.js"></script>
 </body>
-
 </html>
