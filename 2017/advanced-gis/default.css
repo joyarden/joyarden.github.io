@@ -236,7 +236,7 @@
 	
 	.button1 {
 	    display: inline-block;
-	    padding: 15px 15px 15px 15px;
+	    padding: 18px 18px 18px 18px;
 	    letter-spacing: 0.20em;
 	    text-decoration: none;
 	    text-transform: uppercase;
@@ -349,7 +349,9 @@
 	
 	#menu li:hover a,
 	#menu li.active a,
-	#menu li.active span {}
+	#menu li.active span {
+        background:#864062;
+}
 	
 	#menu .current_page_item a {
 	    background: #272925;
@@ -457,8 +459,54 @@
 //PRACTICE
 
 .type-picker {
-                background: transparent;
-                border: solid;
-                border-width: 1px;
-                border-radius: 8px;
             }
+.type-picker, select{
+                background: #272925;
+                border: none;
+                border-right: 2px solid white;
+                padding: 15px 15px 15px 15px;
+                letter-spacing: 0.20em;
+	           text-decoration: none;
+                text-transform: uppercase;
+	           font-weight: 400;
+	           font-size: 0.90em;
+	           color: white;
+                }
+
+.type-picker:hover{
+                background:#864062;
+                }
+
+div.cartodb-popup.v2 div.cartodb-popup-content-wrapper {
+    width: auto;
+    max-width: none;
+    padding: 12px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-image:url(images/NorthernLights.jpg);
+}
+div.cartodb-popup.v2 div.cartodb-popup-content {
+    width: auto;
+    max-width: none;
+    display: block;
+    padding: 2px;
+    
+}
+
+div.cartodb-popup h2 {
+    font-size: 20px;
+    color:#281027;
+    font-family: 'Montserrat', sans-serif;
+    border-bottom: 2px solid #080A20;
+}
+
+div.cartodb-popup p {
+    color: #00232E;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.leaflet-container a {
+    color: #080A20;
+}
+
