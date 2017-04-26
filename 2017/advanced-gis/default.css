@@ -504,6 +504,7 @@ div.cartodb-popup h2 {
 div.cartodb-popup p {
     color: #00232E;
     font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
 }
 
 .leaflet-container a {
