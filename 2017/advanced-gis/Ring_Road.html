@@ -45,6 +45,7 @@ Released   : 20130920
             <div class="buttonbar">
                 <button class="reset button1">All Features</button>
                 <button class="major button1">Main Tourist Attractions</button>
+                <button class="access button1">Accessible by Ring Road</button>
                 <select class="type-picker">
                     <option value="Waterfall">Waterfall</option>
                     <option value="Geothermal Pool">Geothermal Pool</option>
@@ -107,6 +108,9 @@ Released   : 20130920
             $('.major').click(function() {
                 attractionLayer.setSQL("SELECT * FROM attraction WHERE major = 'true'");
             });
+             $('.access').click(function() {
+                attractionLayer.setSQL("SELECT * FROM attraction WHERE access = 'true'");
+            });   
             $('.type-picker').change(function() {
                 var type = $(this).val();
                 var sql;
